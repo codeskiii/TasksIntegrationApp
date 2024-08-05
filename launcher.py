@@ -5,13 +5,27 @@ pyximport.install(language_level=3)
 
 from termcolor import colored
 
-import librus_client as cl
-import text_functions as tf
+import app.librus_client as librus_client
+import app.text_functions as text_functions
 
-LOGIN = '11229124u'
-PASSWD = 'Piotr123.,'
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+LOGIN = os.getenv('LOGIN')
+PASSWD = os.getenv('PASSWD')
 
 if __name__ == "__main__":
     #print(colored("DEBUG: launcher.py", 'red'))
-    csm = cl.current_schedule_manager(LOGIN, PASSWD, take_current_datetime=False, month=2, year=2024)
-    filtered_schedule = tf.IteligentFunctions.schedule_filter(csm.schedule_elements)
+    schedule_manager = librus_client.current_schedule_manager(LOGIN, PASSWD, 
+                                                              take_current_datetime=False, 
+                                                              month=2, year=2024)
+    # i need to have in notion only specified events
+    filtered_schedule = text_functions.schedule_filter(schedule_manager.schedule_elements)
+
+    # autoamtic planning rewiews
+    # TO DO
+
+    # parse into notion
+    # TO DO
